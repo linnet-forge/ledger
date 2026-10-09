@@ -13,6 +13,11 @@ public class PaymentMessageHandler {
 
     public void handle(String key, String payload){
 
+        if(payload == null || payload.isBlank()){
+            log.warn("Warning, message is empty : key={}", key);
+            return;
+        }
+
         log.info("Handling message : key={}, payloadLength={}",
                 key , payload.length());
 
