@@ -18,13 +18,13 @@ public class PaymentListener {
         this.handler = handler;
     }
 
-    @KafkaListener(topics = "payments")
+    @KafkaListener(topics = "${app.kafka.topic.payments}")
     public void onMessage(ConsumerRecord <String,String> record){
 
         log.info("Received message: topic={}, partition={}, offset={}, key={}",
                 record.topic(),record.partition(),record.offset(),record.key()
         );
-
+        handler.handle(record.key(), record.value());
 
     }
 
