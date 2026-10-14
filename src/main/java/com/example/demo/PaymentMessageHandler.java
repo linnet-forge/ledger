@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
 
+
+
 @Service
 public class PaymentMessageHandler {
 
@@ -28,7 +30,7 @@ public class PaymentMessageHandler {
         log.info("Handling message : key={}, payloadLength={}",
                 key , payload.length());
 
-        PaymentResult result = new PaymentResult(key, "SUCCESS", null);
+        PaymentResult result = new PaymentResult(key, PaymentStatus.COMPLETED); // заглушка пока что. чтобы не выебывался
         publisher.publish(key, mapper.writeValueAsString(result));
     }
     }
