@@ -14,10 +14,13 @@ public class PaymentMessageHandler {
     private static final Logger log = LoggerFactory.getLogger(PaymentMessageHandler.class);
     private final ResultPublisher publisher;
     private final ObjectMapper mapper;
-
-    public PaymentMessageHandler(ResultPublisher publisher, ObjectMapper mapper) {
+    private final PaymentRepository paymentRepository;
+    private final AppLogRepository appLogRepository;
+    public PaymentMessageHandler(ResultPublisher publisher, ObjectMapper mapper, PaymentRepository paymentRepository, AppLogRepository appLogRepository) {
         this.publisher = publisher;
         this.mapper = mapper;
+        this.paymentRepository = paymentRepository;
+        this.appLogRepository = appLogRepository;
     }
 
     public void handle(String key, String payload){
@@ -29,6 +32,7 @@ public class PaymentMessageHandler {
 
         log.info("Handling message : key={}, payloadLength={}",
                 key , payload.length());
+
 
         PaymentResult result = new PaymentResult(key, PaymentStatus.COMPLETED); // заглушка пока что. чтобы не выебывался
         publisher.publish(key, mapper.writeValueAsString(result));
